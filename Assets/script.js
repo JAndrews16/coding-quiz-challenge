@@ -8,12 +8,14 @@ var questionEl = document.querySelector("#question");
 var ol = document.querySelector("#answers");
 var scoreText = document.querySelector("#score");
 var answerCheck = document.querySelector("#answerCheck");
+var highScoreEl = document.querySelector("#highScores");
+var storedScores = document.querySelector("#storedScores");
 
 //Score Variable
 var score = 0;
 
 //Questions and Answers Arrays
-//The question in index 0, corresponds with the 
+//The question at index 0, corresponds with index 0 in each answer array
 var questions = ["Where is the <script> tag placed in an HTML file?", "What type of brackets are used when defining an array?", "When it comes to string interpolation, what punctuation must surround the overall string?", "Which of the following is NOT a built-in type of variable in JavaScript?", "When using the querySelector(), what syntax is used to select by class and by id?"];
 var answersA = ["Within the <head></head> tags", "Straight Brackets", "Double quotation marks", "prompt", "class #id"];
 var answersB = ["Within the <body></body> tags", "Curly Brackets", "Single quoation marks", "string", "#class .id"]; 
@@ -22,13 +24,18 @@ var answersD = ["Anywhere as long as it is within the <html></html> tags", "Pare
 
 //Timer variables and function
 var timeEl = document.querySelector("#timer");
-var timeLeft = 45;
+var timeLeft = 40;
 
 function setTime() {
-  setInterval(function() {
+  var interval = setInterval(function() {
+
+    timeEl.setAttribute("style", "opacity: 1;");
 
     if(timeLeft === 0) {
       timeEl.textContent = "Time is Up!";
+      clearInterval(interval);
+      questionEl.parentNode.removeChild(questionEl);
+      ol.parentNode.removeChild(ol);
       gameEnd();
     } 
     else {
@@ -65,7 +72,7 @@ function moveNext() {
 //Function for the game End
 function gameEnd () {
 
-  answerCheck.textContent = "Complete! Input your Initials Below:";
+  answerCheck.textContent = "Input your Initials Below:";
 
   //Added <br> tags for spacing
   var br1 = document.createElement("br");
@@ -87,12 +94,12 @@ function gameEnd () {
   submitBtn.textContent = "Submit";
   answerCheck.appendChild(submitBtn);
 
-  submitBtn.addEventListener("click", function(event){
+submitBtn.addEventListener("click", function(event){
     event.preventDefault();
 
     //store score and initials in local storage
     var user = document.querySelector("#userInitials").value;
-    var finalScore = document.querySelector("#score").value;
+    var finalScore = score;
   
     if (userInitials === "") {
       displayMessage("error", "Input cannot be blank");
@@ -102,33 +109,68 @@ function gameEnd () {
       localStorage.setItem("finalScore", finalScore);
 
       console.log(user);
+      console.log(finalScore);
 
       showHighScores();
-  })
+    });
 };
 
+  //Function to displat high scores
+  function showHighScores() {
 
-//Function to displat high scores
-function showHighScores() {
-  console.log("High scores!");
-  //remove input element, submit button and score
-  //take values and put them on a list
-  //sort them so highest at the top
+    //remove input element, submit button and score
+    var deleteSubBtn = document.querySelector("#submit");
+    var deleteUserInput = document.querySelector("#userInitials");
 
-};
+    deleteSubBtn.parentNode.removeChild(deleteSubBtn);
+    deleteUserInput.parentNode.removeChild(deleteUserInput);
 
-//Event listener for View High Scores Button
-viewHighScores.addEventListener('click', function(event){
-  showHighScores();
-});
+    answerCheck.textContent = " ";
+    scoreText.textContent = " ";
+    timeEl.textContent = " ";
 
+    retrieveHighScores();
+  };
 
+  //Function to retrieve the high scores from local storage
+  function retrieveHighScores() {
+    highScoreEl.setAttribute("style", "opacity: 1;");
+
+    let lastUser = localStorage.getItem("userInitials");
+    let lastScore = localStorage.getItem("finalScore");
+    var localScores = [];
+
+    let lastUserAndScore = lastUser + ". . . . . . . . . . " + lastScore;
+
+    localScores.push(lastUserAndScore);
+    console.log(localScores);
+
+    localStorage.setItem("localScores", localScores);
+    localStorage.getItem("localScore");
+
+    for(let t = 0; t < localScores.length; t++) {
+
+       let initialsAndScore = document.createElement("p");
+       initialsAndScore.setAttribute("id", "initialsAndScore");
+       storedScores.prepend(initialsAndScore);
+      
+       initialsAndScore.textContent = localScores[t];
+    }
+
+    localStorage.setItem("localScores", localScores);
+  }
+
+  //Event listener for View High Scores Button
+  viewHighScores.addEventListener('click', function(event){
+    retrieveHighScores();
+  });
 
 //When start button clicked
 startBtn.addEventListener('click', function(event){
   knowledgeText.parentNode.removeChild(knowledgeText);
   startText.parentNode.removeChild(startText);
   startBtn.parentNode.removeChild(startBtn);
+  highScoreEl.setAttribute("style", "opacity: 0;");
 
   //Start timer
   setTime();

@@ -1,42 +1,44 @@
-# 04 Web APIs: Code Quiz
+# Coding Quiz Challenge
 
-As you proceed in your career as a web developer, you will probably be asked to complete a coding assessment, which is typically a combination of multiple-choice questions and interactive challenges. Build a timed code quiz with multiple-choice questions. This app will run in the browser and feature dynamically updated HTML and CSS powered by your JavaScript code. It will also feature a clean and polished user interface and be responsive, ensuring that it adapts to multiple screen sizes.
+This application take the user through a 5 question, multiple choice quiz on JavaScript Fundementals. There are two buttons at the top,
+one to view any saved high scores, and another to restart the quiz. When the user clicks the start button, they are then presented with a multiple choice question and the timer begins. The user is given 40 seconds to complete this quiz. Once the user chooses an answers, the quiz automatically moves to the next question. If the question is answered incorrectly, 5 seconds are deducted from the timer.
 
-## User Story
+At the end of the quiz or when the timer reaches 0, the user is then prompted to input their initials. One the submit button is clicked the page moves to the high scores page which shows the user's recent scores. 
 
-```
-AS A coding bootcamp student
-I WANT to take a timed quiz on JavaScript fundamentals that stores high scores
-SO THAT I can gauge my progress compared to my peers
-```
+## Code Description
 
-## Acceptance Criteria
+The code is set up to select HTML elements and either hide/show them or create new elements and append children to existing ones. The questions and answers are stored in arrays, where the index in the questions arrary corresponds with the same index in each answers arrary. Example, index 0 in the questions arrary, has the multiple choice answers of index 0 in each answers arrary. 
 
-```
-GIVEN I am taking a code quiz
-WHEN I click the start button
-THEN a timer starts and I am presented with a question
-WHEN I answer a question
-THEN I am presented with another question
-WHEN I answer a question incorrectly
-THEN time is subtracted from the clock
-WHEN all questions are answered or the timer reaches 0
-THEN the game is over
-WHEN the game is over
-THEN I can save my initials and score
-```
+Buttons for each answer (a, b, c, d) along with a bolded heading area, are created upon the user clicking the start button. From there, index 0 of the questions and each answer array are placed as the text content in the appropriate places. When the user selects an answer, an if statement checks if it is correct or not, displays text stating so, adds to the user's score if correct, and moves to the next question using the moveNext() function. The if statement checks for correctness based on the index of the array; there is an if statement within the event listener for each button.
+
+The moveNext() function's sole responsibility is to replace the text on the buttons with the next index in the questions and each answer array.
+
+When the time runs out, the interval is cleared, the questions and answers are removed and the user is presented with an input. This also occurs when the user answers the 5th question. This is controlled by the gameEnd() function. 
+
+Once the user inputs their initials and clicks the submit button, and event listener triggers the storage of the user initials and final score as well as deletion of the input and button. The retrieveHighScores() function is called. This function is also called when the "View High Scores" button is clicked in the upper left corner.
+
+The retrieveHighScores() function displays the high scores element by changing the opacity to 1. Then the function takes the user initials and score out of storage, pushes them onto the array as a string, creates p elements for each item in the array and displays them accordingly. 
+
+From there the user is free to close the application and reopen it and click the view high scores button to view the stored scores. Or they can take the quiz again. 
+
+Link to application: 
 
 The following animation demonstrates the application functionality:
+**Note this is not the application but a similar one that solely serves to show the functionality of the application. 
 
 ![code quiz](./Assets/04-web-apis-homework-demo.gif)
 
-### Review
+The following photos show the application in various stages: 
 
-You are required to submit the following for review:
+Below is the page when first opened by the user:
+![home page](./Assets/Images/homepage.png)
 
-* The URL of the functional, deployed application.
+Below shows the page while the quiz is being taken:
+![question](./Assets/Images/question.png)
 
-* The URL of the GitHub repository. Give the repository a unique name and include a README describing the project.
+Below shows what displays when the timer runs out:
+**Note that the same input will display without the Time is Up! text if the user completes the quiz before the timer reaches 0. 
+![timeout and input](./Assets/Images/timeout.png)
 
-- - -
-© 2019 Trilogy Education Services, a 2U, Inc. brand. All Rights Reserved.
+Below shows the view high scores page, this also displays after the user inputs their initials:
+![high scores](./Assets/Images/Highscore.png)

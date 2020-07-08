@@ -23,7 +23,10 @@ ol li {
     padding-bottom: 15px;
 }
 
-/*ADD STYLING TO SPACE OUT BUTTONS ON NAVBAR */
+footer {
+    font-size: 14px;
+    padding-top: 500px;
+}
 
 .navbar {
     background: rgba(1, 62, 131, 0.192);
@@ -98,5 +101,15 @@ ol li {
 
 #score {
     font-size: 32px;
+    color: rgb(32, 32, 32);
+}
+
+#highScores {
+    text-align: center;
+    padding: 15px;
+}
+
+#initialsAndScore {
+    font-size: 24px;
     color: rgb(32, 32, 32);
 }
