@@ -21,7 +21,7 @@ The retrieveHighScores() function displays the high scores element by changing t
 
 From there the user is free to close the application and reopen it and click the view high scores button to view the stored scores. Or they can take the quiz again. 
 
-Link to application: 
+Link to application: https://jandrews16.github.io/coding-quiz-challenge/
 
 The following animation demonstrates the application functionality:
 **Note this is not the application but a similar one that solely serves to show the functionality of the application. 
