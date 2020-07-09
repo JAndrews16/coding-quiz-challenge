@@ -49,6 +49,7 @@ function setTime() {
 let i = 0;
 
 function moveNext() { 
+  //If last question has bee clicked, remove question and answer buttons
   if(i === 4){
     timeEl.parentNode.removeChild(timeEl);
     questionEl.parentNode.removeChild(questionEl);
@@ -59,7 +60,6 @@ function moveNext() {
     return;
   } else {
     i++;
-    //answerCheck.textContent = " ";
     document.getElementById("question").textContent = questions[i];
     document.getElementById("a").textContent = answersA[i];
     document.getElementById("b").textContent = answersB[i];
@@ -71,7 +71,6 @@ function moveNext() {
 
 //Function for the game End
 function gameEnd () {
-
   answerCheck.textContent = "Input your Initials Below:";
 
   //Added <br> tags for spacing
@@ -94,10 +93,11 @@ function gameEnd () {
   submitBtn.textContent = "Submit";
   answerCheck.appendChild(submitBtn);
 
-submitBtn.addEventListener("click", function(event){
+  //When the submit button is clicked
+  submitBtn.addEventListener("click", function(event){
     event.preventDefault();
 
-    //store score and initials in local storage
+    //Store score and initials in local storage
     var user = document.querySelector("#userInitials").value;
     var finalScore = score;
   
@@ -108,17 +108,14 @@ submitBtn.addEventListener("click", function(event){
       localStorage.setItem("userInitials", user);
       localStorage.setItem("finalScore", finalScore);
 
-      console.log(user);
-      console.log(finalScore);
-
       showHighScores();
     });
 };
-
-  //Function to displat high scores
+  
+  //Function to display high scores
   function showHighScores() {
 
-    //remove input element, submit button and score
+    //Remove input element, submit button and score
     var deleteSubBtn = document.querySelector("#submit");
     var deleteUserInput = document.querySelector("#userInitials");
 
@@ -132,28 +129,32 @@ submitBtn.addEventListener("click", function(event){
     retrieveHighScores();
   };
 
+  //Define empty array for storage of scores
+  var localScores = [];
+  localStorage.getItem("localScores");
+
   //Function to retrieve the high scores from local storage
   function retrieveHighScores() {
     highScoreEl.setAttribute("style", "opacity: 1;");
 
+    //Retrieve stored user and score
     let lastUser = localStorage.getItem("userInitials");
     let lastScore = localStorage.getItem("finalScore");
-    var localScores = [];
 
     let lastUserAndScore = lastUser + ". . . . . . . . . . " + lastScore;
 
+    //Push on to local scores array
     localScores.push(lastUserAndScore);
-    console.log(localScores);
 
     localStorage.setItem("localScores", localScores);
-    localStorage.getItem("localScore");
+    localStorage.getItem("localScores");
 
     for(let t = 0; t < localScores.length; t++) {
 
        let initialsAndScore = document.createElement("p");
        initialsAndScore.setAttribute("id", "initialsAndScore");
        storedScores.prepend(initialsAndScore);
-      
+
        initialsAndScore.textContent = localScores[t];
     }
 
