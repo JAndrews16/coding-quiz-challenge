@@ -29,7 +29,7 @@ The following animation demonstrates the application functionality:
 
 ![code quiz](./Assets/Images/demo.gif)
 
-The following photos show the application in various stages: 
+## Photos of the application at Various Stages 
 
 Below is the page when first opened by the user:
 ![home page](./Assets/Images/homepage.PNG)
