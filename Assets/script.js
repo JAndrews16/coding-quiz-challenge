@@ -1,7 +1,9 @@
 //HTML Selectors
+//Selects all tags with the id = "knowledge"
 var knowledgeText = document.querySelector("#knowledge");
 var startText = document.querySelector("#startText");
 var startBtn = document.querySelector("#start");
+//Selects all tags with the class = "btnRestart"
 var restart = document.querySelector(".btnRestart");
 var viewHighScores = document.querySelector(".btnHighScores");
 var questionEl = document.querySelector("#question");
@@ -23,25 +25,31 @@ var answersC = ["Within an <a></a> tag", "No Brackets", "Back Tics", "boolean", 
 var answersD = ["Anywhere as long as it is within the <html></html> tags", "Parentheses", "Any of the above will work", "object", ".class #id"];
 
 //Timer variables and function
+//Sets time to start at 40
 var timeEl = document.querySelector("#timer");
 var timeLeft = 40;
 
 function setTime() {
   var interval = setInterval(function() {
 
+    //Unhides the timer
     timeEl.setAttribute("style", "opacity: 1;");
 
+    //When time runs out, say time is up and clear the remaining time (otherwise it will keep ticking)
     if(timeLeft === 0) {
       timeEl.textContent = "Time is Up!";
       clearInterval(interval);
+      //Full on remove the questions element and ordered list of answers
       questionEl.parentNode.removeChild(questionEl);
       ol.parentNode.removeChild(ol);
       gameEnd();
     } 
     else {
+      //Continue to subtract one second from the time and show the number on the page
       timeLeft--;
       timeEl.textContent = timeLeft;
     }
+    //The 1000 is because this default functions in miliseconds, so this corrects it to be seconds
   }, 1000);
 };
 
@@ -59,6 +67,7 @@ function moveNext() {
     answerDEl.parentNode.removeChild(answerDEl);
     return;
   } else {
+    //otherwise move to the next index in the arrays by adding 1 to i
     i++;
     document.getElementById("question").textContent = questions[i];
     document.getElementById("a").textContent = answersA[i];
@@ -82,6 +91,7 @@ function gameEnd () {
   //Create Input element for user initials when the game is over
   var userInitials = document.createElement("input");
   userInitials.setAttribute("type", "text");
+  //pre defined id in the CSS file so I don't have to add a bunch of style inside the tag
   userInitials.setAttribute("id", "userInitials");
   answerCheck.appendChild(userInitials);
 
@@ -95,19 +105,22 @@ function gameEnd () {
 
   //When the submit button is clicked
   submitBtn.addEventListener("click", function(event){
+    //prevent default prevents the page from auto refreshing when the button is clicked
     event.preventDefault();
 
     //Store score and initials in local storage
     var user = document.querySelector("#userInitials").value;
     var finalScore = score;
   
+    //If the input is blank, display error message
     if (userInitials === "") {
       displayMessage("error", "Input cannot be blank");
     }
-  
+      //Store the initials and score into local storage
       localStorage.setItem("userInitials", user);
       localStorage.setItem("finalScore", finalScore);
-
+      
+      //automatically move to the High scores page
       showHighScores();
     });
 };
@@ -135,6 +148,7 @@ function gameEnd () {
 
   //Function to retrieve the high scores from local storage
   function retrieveHighScores() {
+    //Unhide the high scores element
     highScoreEl.setAttribute("style", "opacity: 1;");
 
     //Retrieve stored user and score
@@ -149,6 +163,7 @@ function gameEnd () {
     localStorage.setItem("localScores", localScores);
     localStorage.getItem("localScores");
 
+    //iterate through the stored array and display scores
     for(let t = 0; t < localScores.length; t++) {
 
        let initialsAndScore = document.createElement("p");
@@ -208,7 +223,7 @@ startBtn.addEventListener('click', function(event){
   answerCEl.textContent = answersC[0];
   answerDEl.textContent = answersD[0];
 
-  //Check Answer based on the index
+  //Check Answer based on the index and add to score if needed, then move to the next question with moveNext()
   answerAEl.addEventListener('click', function(event){
     if(i === 1 || i === 3){
       answerCheck.textContent = "Correct!";
